@@ -1,0 +1,100 @@
+#chartsContainer {
+    height: 100vh;
+    overflow:scroll;
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+ .app-container {
+  text-align: center;
+}
+
+.theme-toggle-btn {
+  position: absolute;
+  right:0;
+  top:10px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #2962FF;
+  color: white;
+  transition: background 0.3s;
+}
+
+.theme-toggle-btn:hover {
+  background-color: #1e4bb5;
+}
+/* .chart_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+} */
+
+/* .chart {
+  width: 500px;
+  height: 500px;
+} */
+
+
+.app {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .content {
+    display: flex;
+  }
+  
+  .main {
+    width: 100%;
+    display: flex;
+   flex-direction: column;
+    gap: 20px;
+  }
+
+  .chart_component {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .timeline-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .timeline-container button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+  }
+  
+  .timeline-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Selected Button Style */
+  .timeline-container .selected {
+    background-color: #0056b3;
+    font-weight: bold;
+  }
+  

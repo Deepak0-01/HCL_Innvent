@@ -1,0 +1,62 @@
+/* Full-page container with gradient background */
+.container {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 10rem;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+
+/* Goal input box styling */
+.goal-box {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Form styling */
+.goal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Textarea styling */
+.goal-textarea {
+    width: 50rem;
+    height: 150px;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    resize: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.goal-textarea:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 8px rgba(106, 17, 203, 0.4);
+}
+
+/* Button styling */
+.goal-button {
+    margin-top: 15px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(to right, #121010, #070707);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.goal-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 65, 108, 0.3);
+}
