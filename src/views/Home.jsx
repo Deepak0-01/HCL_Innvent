@@ -1,6 +1,7 @@
 import { AreaSeries, LineSeries, CandlestickSeries, createChart, ColorType } from 'lightweight-charts';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import './Home.css';
+import FancyLoader from '../components/FancyLoader';
 
 export const AreaChartComponent = ({ data }) => {
     const chartContainerRef = useRef();
@@ -164,15 +165,85 @@ const candlestickData = [
     { time: '2024-02-11', open: 105, high: 115, low: 100, close: 110 },
 ];
 
+function transformData(sourceArray) {
+    return sourceArray.map(item => ({
+        time: new Date(item.ds).toISOString().split('T')[0], // Extracts YYYY-MM-DD from the date
+        value: parseFloat(item.yhat.toFixed(2)) // Rounds the value to 2 decimal places
+    }));
+}
+
+// Example source array
+
+// // Transform the data
+// const transformedData = transformData(sourceArray);
+// console.log(transformedData);
+
+
 function App() {
     const timeLine = ['1 Week', '1 Month', '3 Months', '6 Months', '1 Year'];
+    const sourceArray = [
+        {
+            "ds": "Sat, 01 Mar 2025 00:00:00 GMT",
+            "yhat": 86.08315593759738,
+            "yhat_lower": 84.55900397767802,
+            "yhat_upper": 87.6337141092452
+        },
+        {
+            "ds": "Sun, 02 Mar 2025 00:00:00 GMT",
+            "yhat": 86.09510814847704,
+            "yhat_lower": 84.54617108801821,
+            "yhat_upper": 87.66995145373424
+        },
+        {
+            "ds": "Mon, 03 Mar 2025 00:00:00 GMT",
+            "yhat": 86.19472063229472,
+            "yhat_lower": 84.584081883012,
+            "yhat_upper": 87.82085365621782
+        },
+        {
+            "ds": "Tue, 04 Mar 2025 00:00:00 GMT",
+            "yhat": 86.19056846218422,
+            "yhat_lower": 84.69384817213584,
+            "yhat_upper": 87.82422099430475
+        },
+        {
+            "ds": "Wed, 05 Mar 2025 00:00:00 GMT",
+            "yhat": 86.24776480620191,
+            "yhat_lower": 84.56931540460472,
+            "yhat_upper": 87.67449816250573
+        }
+    ];
+    const transformedData = transformData(sourceArray);
+    console.log(transformedData);
     const [selectedTimeline, setSelectedTimeline] = useState('1 Week');
+    const [recommendations, setRecommendations] = useState(['1','2','3']);
+
+    // const [data, setData] = useState(transformedData);
+    const [loading, setLoading] = useState(false);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const response = await fetch(`https://api.jsonbin.io/v3/b/67b92406e41b4d34e4978f9d`);
+    //             const result = await response.json();
+    //             setData(result.record); // Assuming the response is in the correct format
+    //         } catch (error) {
+    //             console.error("Error fetching data:", error);
+    //         }
+    //         setLoading(false);
+    //     };
+
+    //     fetchData();
+    // }, [selectedTimeline]);
     
     return (
         <div id="chartsContainer">
             <div className='chart_component'>
-                <AreaChartComponent data={initialData} />
-                <div className="timeline-container">
+            <Suspense fallback={<FancyLoader />}>
+                    {loading ? <FancyLoader /> : <AreaChartComponent data={transformedData} />}
+                </Suspense>
+                {transformedData.length > 0 && <div className="timeline-container">
                     {timeLine.map((timeline, index) => (
                         <button
                             key={index}
@@ -182,26 +253,10 @@ function App() {
                             {timeline}
                         </button>
                     ))}
-                </div>
+                </div>}
             </div>
-            <div className='chart_component'>
-                <LineChartComponent data={initialData} />
-            </div>
-            <div className='chart_component'>
-                <LineChartComponent data={initialData} />
-                <div className="timeline-container">
-                    {timeLine.map((timeline, index) => (
-                        <button
-                            key={index}
-                            className={selectedTimeline === timeline ? 'selected' : ''}
-                            onClick={() => setSelectedTimeline(timeline)}
-                        >
-                            {timeline}
-                        </button>
-                    ))}
-                </div>
-            </div>
-            <div className='chart_component'>
+            
+            {/* <div className='chart_component'>
                 <LineChartComponent data={initialData} />
                 <div className="timeline-container">
                     {timeLine.map((timeline, index) => (
@@ -214,21 +269,15 @@ function App() {
                         </button>
                     ))}
                 </div>
-            </div>
-            <div className='chart_component'>
-                <LineChartComponent data={initialData} />
-                <div className="timeline-container">
-                    {timeLine.map((timeline, index) => (
-                        <button
-                            key={index}
-                            className={selectedTimeline === timeline ? 'selected' : ''}
-                            onClick={() => setSelectedTimeline(timeline)}
-                        >
-                            {timeline}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            </div> */}
+             <div className="recommendations-container">
+            <h1>Recommendation Panel</h1>
+      {recommendations.map((recommendation, index) => (
+        <div key={index} className="recommendation-card">
+          {recommendation}
+        </div>
+      ))}
+    </div>
         </div>
     );
 }

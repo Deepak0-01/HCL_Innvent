@@ -3,12 +3,32 @@ import '../styles/Goals.css';
 
 function Goals() {
     const [input, setInput] = useState('');
+    const [recommendations, setRecommendations] = useState(['1','2','3']);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const userInput = formData.get('user_input');
-        alert(userInput);
+        console.log(userInput);
+        try {
+            const response = await fetch('http://localhost:3000/store', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: userInput }),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+            console.log('Response:', data);
+            return data;
+        } catch (error) {
+            console.error('Error:', error);
+        }
         setInput('');
     };
 
@@ -28,6 +48,14 @@ function Goals() {
                     </button>
                 </form>
             </div>
+            <div className="recommendations-container">
+            <div>Recommendation Panel</div>
+      {recommendations.map((recommendation, index) => (
+        <div key={index} className="recommendation-card">
+          {recommendation}
+        </div>
+      ))}
+    </div>
         </div>
     );
 }
